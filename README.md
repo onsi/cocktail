@@ -91,6 +91,10 @@ The events hash is special-cased by Cocktail.  Mixins can define new events hash
 
 Note that key-collisions are still possible.  If two mixins add a `click` handler to the events hash (`{'click': ... }`) then the last mixin in the mixins list's event handler will win.
 
+## Testing Mixins
+
+The [example](https://github.com/onsi/cocktail/tree/master/example) directory includes an example mixin and its usage, and the accompanying [Jasmine](http://www.github.com/pivotal/jasmine) test.  It also includes a [readme](https://github.com/onsi/cocktail/tree/master/example) that walks through the testing pattern employed for testing mixins with Jasmine.
+
 ## Dependencies and "Installation"
 
 Cocktail requires:
@@ -104,9 +108,3 @@ Future changes to backbone could break Cocktail or obviate its need.  If the lat
 
 ## If you like Cocktail...
 ...check out [Coccyx](http://github.com/onsi/coccyx).  Coccyx helps you plug up backbone leaks with two things: named constructors and tear-downable view hierarchies.
-
---------------
-
-# Testing Mixins
-
-The example directory includes an example mixin and its usage, and the accompanying [Jasmine](http://www.github.com/pivotal/jasmine) test.  It also includes a [readme](http://www.github.com/onsi/cocktail/example/README.md) that walks through the testing pattern employed for testing mixins with Jasmine.
