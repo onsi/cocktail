@@ -69,7 +69,7 @@ Now all instances of `MyView` will have the selection behavior defined in the `S
 
 ## But What About Collisions?
 
-In the example above, both `MyView` and `SelectMixin` defined `initialize`, `render`.  What happens with these colliding properties?
+In the example above, both `MyView` and `SelectMixin` both defined `initialize`, and `render`.  What happens with these colliding methods?
 
 Cocktail automatically ensures that methods defined in your mixins do not obliterate the corresponding methods in your classes.  This is accomplished by wrapping all colliding methods into a new method that is then assigned to the final composite object.
 
