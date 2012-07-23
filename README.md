@@ -98,7 +98,7 @@ Cocktail requires:
   - [Backbone](http://backbonejs.org) (duh) (tested with 0.9.2)
   - [Underscore](http://underscorejs.org) (tested with 1.3.3)
 
-To use Cocktail you must include it *after* including Underscore and Backbone.  Cocktail monkey-patches backbone's extend!
+To use Cocktail you must include `Cocktail.js` it *after* including Underscore and Backbone.  Cocktail monkey-patches backbone's extend!
 
 Future changes to backbone could break Cocktail or obviate its need.  If the latter happens - great!  If the former: let me know and I'll try to ensure compatibility going forward.
 
