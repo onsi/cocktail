@@ -11,7 +11,7 @@
     var klass = originalExtend.call(this, protoProps, classProps);
     var mixins = klass.prototype.mixins;
 
-    if (mixins && mixins.length > 0) {
+    if (mixins && klass.prototype.hasOwnProperty('mixins')) {
       var collisions = {};
 
       _(mixins).each(function(mixin) {
@@ -19,7 +19,7 @@
           if (key == 'events') {
             klass.prototype.events = _.extend({}, klass.prototype.events || {}, value);
           } else if (_.isFunction(value)) {
-            if (_.has(klass.prototype, key)) {
+            if (klass.prototype[key]) {
               collisions[key] = collisions[key] || [klass.prototype[key]];
               collisions[key].push(value);
             }

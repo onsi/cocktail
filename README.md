@@ -12,7 +12,7 @@ Here's an example mixin that implements selectability on a view based on a model
     
     MyMixins.SelectMixin = {
       initialize: function() {
-        this.model.on('change:select', this.refreshSelect, this);
+        this.model.on('change:selected', this.refreshSelect, this);
       },
 
       events: {
@@ -44,7 +44,7 @@ Once you have your mixins defin;;ed including them in your Backbone object defin
 
     var MyView = Backbone.View.extend({
 
-      mixins: [MyMixins.SelectMixin, MyMixins.SometherMixin],
+      mixins: [MyMixins.SelectMixin, MyMixins.SomeOtherMixin],
 
       events: {
         'click .myChild': 'myCustomHandler'
@@ -90,6 +90,12 @@ To be clear: let's say **X** mixes in **A** and **B**.  Say **X** implements a m
 The events hash is special-cased by Cocktail.  Mixins can define new events hashes. The set of event hashes (original implementation + each mixin) are merged together.
 
 Note that key-collisions are still possible.  If two mixins add a `click` handler to the events hash (`{'click': ... }`) then the last mixin in the mixins list's event handler will win.
+
+## And what about subclasses?
+
+Subclass hierarchies with mixins should work just fine.  If a super class mixes in a mixin, then all subclasses will inherit that mixin.  If those subclasses mixin additional mixins, those mixins will be folded in to the subclasses and collisions will be handled correctly, even collisions with methods further up the class hierarchy.
+
+However, if a subclass redefines a method that is provided by a mixin of the super class, the mixin's implementation will *not* be called.  This shouldn't be surprising: the subclass's method is further up in the prototype chain and is the method that gets evaluated.  In these circumstance you *must* remember to call `SubClass.__super__.theMethod.apply(this)` to ensure that the mixin's method gets called.
 
 ## Testing Mixins
 
