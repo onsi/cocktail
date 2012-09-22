@@ -28,12 +28,12 @@
         });
       });
 
-      _(collisions).each(function(methods, methodName) {
-        klass.prototype[methodName] = function() {
+      _(collisions).each(function(propertyValues, propertyName) {
+        klass.prototype[propertyName] = function() {
           var that = this, args = arguments, returnValue = undefined;
 
-          _(methods).each(function(method) {
-            var returnedValue = method.apply(that, args);
+          _(propertyValues).each(function(value) {
+            var returnedValue = _.isFunction(value) ? value.apply(that, args) : value;
             returnValue = (returnedValue === undefined ? returnValue : returnedValue);
           });
 

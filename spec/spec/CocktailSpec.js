@@ -36,6 +36,7 @@ describe('Cocktail', function() {
         calls.push('fooBarA');
         return true;
       }
+
     }
 
     B = {
@@ -66,6 +67,17 @@ describe('Cocktail', function() {
       }
     }
 
+    C = {
+      url: function() {
+        return '/sprockets';
+      }
+    }
+
+    D = {
+      urlRoot: '/thingamajigs',
+      defaults: function() { return null; }
+    }
+
     ViewClass = Backbone.View.extend({
       mixins: [A, B],
       
@@ -74,26 +86,38 @@ describe('Cocktail', function() {
       },
       
       initialize: function() {
-       this.$el.append('<div class="view"></div>');
-     },
+        this.$el.append('<div class="view"></div>');
+      },
 
-     clickView: function() {
-      calls.push('clickView');
-    },
+      clickView: function() {
+        calls.push('clickView');
+      },
 
-    render: function() {
-      calls.push('renderView');
-      return this;
-    },
+      render: function() {
+        calls.push('renderView');
+        return this;
+      },
 
-    beforeTearDown: function() {
-      calls.push('beforeTearDownView');
-    },
+      beforeTearDown: function() {
+        calls.push('beforeTearDownView');
+      },
 
-    awesomeSauce: function() {
-      calls.push('awesomeView')
-    }
-  });
+      awesomeSauce: function() {
+        calls.push('awesomeView')
+      }
+    }),
+
+    CollectionClass = Backbone.Collection.extend({
+      mixins: [C],
+      url: '/widgets'
+    }),
+
+    ModelClass = Backbone.Model.extend({
+      mixins: [D],
+      urlRoot: function() { return '/gizmos'; },
+      defaults: { foo : 'bar' }
+    });
+
   });
 
 describe('mixing in mixins', function() {
@@ -142,6 +166,24 @@ describe('handling method collisions', function() {
     expect(view.sublime()).toEqual('sublemon');
     expect(view.fooBar()).toEqual(false);
     expect(view.awesomeSauce()).toEqual('the sauce');
+  });
+});
+
+describe('handling functional override of non-function property', function() {
+  it('should return the last defined value in the collision chain with truthy return value', function() {
+    var collection = new CollectionClass();
+    expect(collection.url()).toEqual('/sprockets');
+  });
+  it('should return the last defined value in the collision chain with null return value', function() {
+    var model = new ModelClass();
+    expect(model.defaults()).toBeNull();
+  });
+});
+
+describe('handling non-functional override of non-events property', function() {
+  it('should ignore the non-functional mixin property', function() {
+    var model = new ModelClass();
+    expect(model.url()).toEqual('/gizmos');
   });
 });
 
