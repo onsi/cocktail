@@ -35,6 +35,10 @@ describe('Cocktail', function() {
       fooBar: function() {
         calls.push('fooBarA');
         return true;
+      },
+
+      attributes: {
+        'data-role' : 'howard' // not a function, not events: ignored
       }
     }
 
@@ -63,7 +67,22 @@ describe('Cocktail', function() {
       fooBar: function() {
         calls.push('fooBarB');
         return false;
+      },
+
+      attributes: function() {
+        calls.push('attributesB'); // return undefined
       }
+    }
+
+    C = {
+      url: function() {
+        return '/sprockets';
+      }
+    }
+
+    D = {
+      urlRoot: '/thingamajigs',
+      defaults: function() { return null; }
     }
 
     ViewClass = Backbone.View.extend({
@@ -74,26 +93,42 @@ describe('Cocktail', function() {
       },
       
       initialize: function() {
-       this.$el.append('<div class="view"></div>');
-     },
+        this.$el.append('<div class="view"></div>');
+      },
 
-     clickView: function() {
-      calls.push('clickView');
-    },
+      clickView: function() {
+        calls.push('clickView');
+      },
 
-    render: function() {
-      calls.push('renderView');
-      return this;
-    },
+      render: function() {
+        calls.push('renderView');
+        return this;
+      },
 
-    beforeTearDown: function() {
-      calls.push('beforeTearDownView');
-    },
+      beforeTearDown: function() {
+        calls.push('beforeTearDownView');
+      },
 
-    awesomeSauce: function() {
-      calls.push('awesomeView')
-    }
-  });
+      awesomeSauce: function() {
+        calls.push('awesomeView')
+      },
+
+      attributes: {
+        'data-role' : 'spiner'
+      }
+    }),
+
+    CollectionClass = Backbone.Collection.extend({
+      mixins: [C],
+      url: '/widgets'
+    }),
+
+    ModelClass = Backbone.Model.extend({
+      mixins: [D],
+      urlRoot: function() { return '/gizmos'; },
+      defaults: { foo : 'bar' }
+    });
+
   });
 
 describe('mixing in mixins', function() {
@@ -115,7 +150,7 @@ describe('mixing in mixins', function() {
       $('.B').click();
       $('.view').click();
 
-      expect(calls).toEqual(['clickA', 'clickB', 'clickView']);
+      expect(calls).toEqual(['attributesB', 'clickA', 'clickB', 'clickView']);
     });
   });
 });
@@ -132,7 +167,7 @@ describe('handling method collisions', function() {
     expect($('.view')[0]).toBeTruthy();
     view.beforeTearDown();
 
-    expect(calls).toEqual(['renderView', 'renderA', 'awesomeView', 'awesomeA', 'fooBarA', 'fooBarB','beforeTearDownView', 'beforeTearDownB']);
+    expect(calls).toEqual(['attributesB', 'renderView', 'renderA', 'awesomeView', 'awesomeA', 'fooBarA', 'fooBarB','beforeTearDownView', 'beforeTearDownB']);
   });
 
   it('should return the last return value in the collision chain', function() {
@@ -142,6 +177,29 @@ describe('handling method collisions', function() {
     expect(view.sublime()).toEqual('sublemon');
     expect(view.fooBar()).toEqual(false);
     expect(view.awesomeSauce()).toEqual('the sauce');
+  });
+});
+
+describe('handling functional override of non-function property', function() {
+  it('should return the last truthy defined return value in the collision chain', function() {
+    var collection = new CollectionClass();
+    expect(collection.url()).toEqual('/sprockets');
+  });
+  it('should return the last falsy defined return value in the collision chain', function() {
+    var model = new ModelClass();
+    expect(model.defaults()).toBeNull();
+  });
+  it('should set a function returning the base value if no mixin function has defined return', function() {
+    var view = new ViewClass();
+    expect(view.attributes()).toEqual({ 'data-role' : 'spiner' });
+    expect(calls).toEqual(['attributesB', 'attributesB']); // called on init
+  });
+});
+
+describe('handling non-functional override of non-events property', function() {
+  it('should ignore the non-functional mixin property', function() {
+    var model = new ModelClass();
+    expect(model.url()).toEqual('/gizmos');
   });
 });
 
@@ -200,7 +258,7 @@ describe('when mixins are applied in the context of super/subclasses', function(
     $('.B').click();
     subInstance.fooBar();
 
-    expect(calls).toEqual(['clickA', 'clickB', 'BaseClassFoo', 'fooBarA', 'SubClassWithMixinFoo', 'fooBarB']);
+    expect(calls).toEqual(['attributesB', 'clickA', 'clickB', 'BaseClassFoo', 'fooBarA', 'SubClassWithMixinFoo', 'fooBarB']);
   });
 });
 });
