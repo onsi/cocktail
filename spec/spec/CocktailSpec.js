@@ -260,5 +260,16 @@ describe('when mixins are applied in the context of super/subclasses', function(
 
     expect(calls).toEqual(['attributesB', 'clickA', 'clickB', 'BaseClassFoo', 'fooBarA', 'SubClassWithMixinFoo', 'fooBarB']);
   });
+
+  it("should allow usage from coffeescript", function() {
+    ViewClass.include({
+      mixinmethod: function() {
+        return 'mixin';
+      }
+    });
+
+    var view = new ViewClass;
+    expect(view.mixinmethod()).toEqual('mixin');
+  });
 });
 });
