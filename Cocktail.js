@@ -7,7 +7,7 @@
 (function() {
   var originalExtend = Backbone.Model.extend;
 
-  var include = function(klass) {
+  var mixin = function(klass) {
     var mixins = _.flatten(_.rest(arguments));
 
     var collisions = {};
@@ -45,13 +45,13 @@
     var mixins = klass.prototype.mixins;
 
     if (mixins && klass.prototype.hasOwnProperty('mixins')) {
-      include(klass, mixins);
+      mixin(klass, mixins);
     }
 
     return klass;
   }
-  Backbone.Model.include = Backbone.Collection.include = Backbone.Router.include = Backbone.View.include = function() {
-    include(this, _.toArray(arguments));
+  Backbone.Model.mixin = Backbone.Collection.mixin = Backbone.Router.mixin = Backbone.View.mixin = function() {
+    mixin(this, _.toArray(arguments));
   };
   Backbone.Model.extend = Backbone.Collection.extend = Backbone.Router.extend = Backbone.View.extend = extend;
 })();

@@ -101,6 +101,16 @@ However, if a subclass redefines a method that is provided by a mixin of the sup
 
 The [example](https://github.com/onsi/cocktail/tree/master/example) directory includes an example mixin and its usage, and the accompanying [Jasmine](http://www.github.com/pivotal/jasmine) test.  It also includes a [readme](https://github.com/onsi/cocktail/tree/master/example) that walks through the testing pattern employed for testing mixins with Jasmine.
 
+## Can I use Cocktail with CoffeeScript?
+
+Using CoffeeScript's `extends` notation to subclass Backbone classes does not call Backbone's extend and, therefore, circumvents Cocktail's monkeypatch.
+
+A workaround is to use the `mixin` class method provided by Cocktail.  Instead of defining a `mixins` property on the class you should call:
+
+    MyView.mixin([mixin1, mixin2, ...]);
+
+right after defining your custom subclass.
+
 ## Dependencies and "Installation"
 
 Cocktail requires:
