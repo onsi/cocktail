@@ -1,6 +1,4 @@
 window.MyPaginatedView = Backbone.View.extend({
-  mixins: [MyMixins.PaginateMixin],
-
   render: function() {
     this.$el.append('<div class="the-number"></div>')
   },
@@ -13,3 +11,5 @@ window.MyPaginatedView = Backbone.View.extend({
     return 10;
   }
 })
+
+Cocktail.mixin(window.MyPaginatedView, window.MyMixins.PaginateMixin);

@@ -143,8 +143,6 @@ Consider this view:
     // PaginatedView.js
 
     window.MyPaginatedView = Backbone.View.extend({
-      mixins: [MyMixins.PaginateMixin],
-
       render: function() {
         this.$el.append('<div class="the-number"></div>')
       },
@@ -157,6 +155,8 @@ Consider this view:
         return 10;
       }
     })
+
+    Cocktail.mixin(MyPaginatedView, MyMixins.PaginateMixin);
 
 Here's how we'd test this view:
 

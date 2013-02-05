@@ -40,12 +40,9 @@ As you can see: nothing special, just a bag of functions.
 
 ## Mixing Mixins In
 
-Once you have your mixins defin;;ed including them in your Backbone object definitions is a one-liner:
+Once you have your mixins defined including them in your Backbone object definitions is a one-liner:
 
     var MyView = Backbone.View.extend({
-
-      mixins: [MyMixins.SelectMixin, MyMixins.SomeOtherMixin],
-
       events: {
         'click .myChild': 'myCustomHandler'
       }
@@ -61,11 +58,28 @@ Once you have your mixins defin;;ed including them in your Backbone object defin
       etc...
     });
 
+    Cocktail.mixin(MyView, MyMixins.SelectMixin, MyMixins.SomeOtherMixin);
+
 Now all instances of `MyView` will have the selection behavior defined in the `SelectMixin`:
 
     var view = new MyView(...);
     view.toggleSelect(); //works!
 
+### If you don't mind monkeypatching
+
+By default, as of 0.2.0 Cocktail no longer messes with Backbone's built-in extend method.  However, if you don't mind some monkey patching then running:
+
+    Cocktail.patch(Backbone);
+
+*before* you define any classes will allow you to mixin code like this:
+
+    var MyView = Backbone.View.extend({
+      mixins: [MyMixins.SelectMixin, MyMixins.SomeOtherMixin],
+
+      etc...
+    });
+
+with the monkey-patch installed, mixins are just a convenient bit of configuration at the top of your class definitions. Note that the patch should only be applied once.
 
 ## But What About Collisions?
 
@@ -101,24 +115,12 @@ However, if a subclass redefines a method that is provided by a mixin of the sup
 
 The [example](https://github.com/onsi/cocktail/tree/master/example) directory includes an example mixin and its usage, and the accompanying [Jasmine](http://www.github.com/pivotal/jasmine) test.  It also includes a [readme](https://github.com/onsi/cocktail/tree/master/example) that walks through the testing pattern employed for testing mixins with Jasmine.
 
-## Can I use Cocktail with CoffeeScript?
-
-Using CoffeeScript's `extends` notation to subclass Backbone classes does not call Backbone's extend and, therefore, circumvents Cocktail's monkeypatch.
-
-A workaround is to use the `mixin` class method provided by Cocktail.  Instead of defining a `mixins` property on the class you should call:
-
-    MyView.mixin([mixin1, mixin2, ...]);
-
-right after defining your custom subclass.
-
 ## Dependencies and "Installation"
 
 Cocktail requires:
 
   - [Backbone](http://backbonejs.org) (duh) (tested with 0.9.2)
   - [Underscore](http://underscorejs.org) (tested with 1.3.3)
-
-To use Cocktail you must include `Cocktail.js` it *after* including Underscore and Backbone.  Cocktail monkey-patches backbone's extend!
 
 Future changes to backbone could break Cocktail or obviate its need.  If the latter happens - great!  If the former: let me know and I'll try to ensure compatibility going forward.
 
