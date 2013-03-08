@@ -20,6 +20,8 @@
             _(mixin).each(function(value, key) {
                 if (key == 'events') {
                     klass.prototype.events = _.extend({}, klass.prototype.events || {}, value);
+                } else if (key == 'attributes') {
+                    klass.prototype.attributes = _.extend({}, klass.prototype.attributes || {}, value);
                 } else if (_.isFunction(value)) {
                     if (klass.prototype[key]) {
                         collisions[key] = collisions[key] || [klass.prototype[key]];
