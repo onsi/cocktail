@@ -11,12 +11,17 @@
         Cocktail = this.Cocktail = {};
     }
 
+    Cocktail.mixins = {};
+
     Cocktail.mixin = function mixin(klass) {
         var mixins = _.chain(arguments).toArray().rest().flatten().value();
 
         var collisions = {};
 
         _(mixins).each(function(mixin) {
+            if (_.isString(mixin)) {
+                mixin = Cocktail.mixins[mixin];
+            }
             _(mixin).each(function(value, key) {
                 if (key == 'events') {
                     klass.prototype.events = _.extend({}, klass.prototype.events || {}, value);

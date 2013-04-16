@@ -81,6 +81,25 @@ By default, as of 0.2.0 Cocktail no longer messes with Backbone's built-in exten
 
 with the monkey-patch installed, mixins are just a convenient bit of configuration at the top of your class definitions. Note that the patch should only be applied once.
 
+### Named mixins
+
+Whether or not you're monkey patching Backbone, you can also use named mixins by registering them with Cocktail:
+
+    Cocktail.mixins = {
+      select: MyMixins.SelectMixin,
+      other: MyMixins.SomeOtherMixin
+    };
+
+    // Without monkey patching
+    Cocktail.mixin(MyView, 'select', 'other');
+
+    // With monkey patching
+    var MyView = Backbone.View.extend({
+      mixins: ['select', 'other'],
+
+      etc...
+    });
+
 ## But What About Collisions?
 
 In the example above, both `MyView` and `SelectMixin` both defined `initialize`, and `render`.  What happens with these colliding methods?
