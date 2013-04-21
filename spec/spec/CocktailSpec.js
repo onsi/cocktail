@@ -1,93 +1,97 @@
-describe('Cocktail', function() {
-    var A, B, ViewClass;
-    var calls;
+var A, B, ViewClass;
+var calls;
 
-    beforeEach(function() {
-        calls = [];
+var testSetup = function() {
+    calls = [];
 
-        A = {
-            events: {
-                'click .A': 'clickA'
-            },
+    _A = {
+        events: {
+            'click .A': 'clickA'
+        },
 
-            initialize: function() {
-                this.$el.append('<div class="A"></div>');
-            },
+        initialize: function() {
+            this.$el.append('<div class="A"></div>');
+        },
 
-            theFunc: function() {
-                calls.push('theFunc');
-                return 'func!'
-            },
+        theFunc: function() {
+            calls.push('theFunc');
+            return 'func!'
+        },
 
-            clickA: function() {
-                calls.push('clickA');
-            },
+        clickA: function() {
+            calls.push('clickA');
+        },
 
-            render: function() {
-                calls.push('renderA');
-            },
+        render: function() {
+            calls.push('renderA');
+        },
 
-            awesomeSauce: function() {
-                calls.push('awesomeA')
-                return 'the sauce'
-            },
+        awesomeSauce: function() {
+            calls.push('awesomeA')
+            return 'the sauce'
+        },
 
-            fooBar: function() {
-                calls.push('fooBarA');
-                return true;
-            },
+        fooBar: function() {
+            calls.push('fooBarA');
+            return true;
+        },
 
-            attributes: {
-                'data-role': 'howard' // not a function, not events: ignored
-            }
+        attributes: {
+            'data-role': 'howard' // not a function, not events: ignored
         }
+    }
+    Cocktail.mixins['A'] = _A;
 
-        B = {
-            events: {
-                'click .B': 'clickB'
-            },
+    _B = {
+        events: {
+            'click .B': 'clickB'
+        },
 
-            initialize: function() {
-                this.$el.append('<div class="B"></div>');
-            },
+        initialize: function() {
+            this.$el.append('<div class="B"></div>');
+        },
 
-            sublime: function() {
-                calls.push('sublime');
-                return 'sublemon'
-            },
+        sublime: function() {
+            calls.push('sublime');
+            return 'sublemon'
+        },
 
-            clickB: function() {
-                calls.push('clickB');
-            },
+        clickB: function() {
+            calls.push('clickB');
+        },
 
-            beforeTearDown: function() {
-                calls.push('beforeTearDownB');
-            },
+        beforeTearDown: function() {
+            calls.push('beforeTearDownB');
+        },
 
-            fooBar: function() {
-                calls.push('fooBarB');
-                return false;
-            },
+        fooBar: function() {
+            calls.push('fooBarB');
+            return false;
+        },
 
-            attributes: function() {
-                calls.push('attributesB'); // return undefined
-            }
+        attributes: function() {
+            calls.push('attributesB'); // return undefined
         }
+    }
+    Cocktail.mixins['B'] = _B;
 
-        C = {
-            url: function() {
-                return '/sprockets';
-            }
+    _C = {
+        url: function() {
+            return '/sprockets';
         }
+    }
+    Cocktail.mixins['C'] = _C;
 
-        D = {
-            urlRoot: '/thingamajigs',
-            defaults: function() {
-                return null;
-            }
+    _D = {
+        urlRoot: '/thingamajigs',
+        defaults: function() {
+            return null;
         }
-    });
+    }
+    Cocktail.mixins['D'] = _D;
+};
 
+var testBody = function() {
     describe("Cocktail.mixin", function() {
         beforeEach(function() {
             ViewClass = Backbone.View.extend({
@@ -310,5 +314,28 @@ describe('Cocktail', function() {
                 expect(calls).toEqual(['attributesB', 'clickA', 'clickB', 'BaseClassFoo', 'fooBarA', 'SubClassWithMixinFoo', 'fooBarB']);
             });
         });
+    });
+};
+
+describe('Cocktail', function() {
+    describe('when using regular mixins', function() {
+        beforeEach(function() {
+            testSetup();
+            A = _A;
+            B = _B;
+            C = _C;
+            D = _D;
+        });
+        testBody();
+    });
+    describe('when using named mixins', function() {
+        beforeEach(function() {
+            testSetup();
+            A = 'A';
+            B = 'B';
+            C = 'C';
+            D = 'D';
+        });
+        testBody();
     });
 });
