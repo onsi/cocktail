@@ -86,30 +86,41 @@ describe('Cocktail', function() {
                 return null;
             }
         }
+
+        Cocktail.mixins.A = A;
+        Cocktail.mixins.B = B;
+        Cocktail.mixins.C = C;
+        Cocktail.mixins.D = D;
     });
 
     describe("Cocktail.mixin", function() {
         beforeEach(function() {
             ViewClass = Backbone.View.extend({
-                mixins: [A, B],
+                mixins: [A, 'B'],
                 //should be ignored as the patch is not installed
                 fooBar: function() {
                     calls.push('fooBarOriginal');
                 }
             })
 
-            Cocktail.mixin(ViewClass, {
+
+            var aMixin = {
                 mixinmethod: function() {
                     return 'mixin';
                 },
                 otherMixinMethod: function() {
                     return 'other';
                 }
-            }, {
+            }
+
+            // Works with named mixins too
+            Cocktail.mixins.fooBar = {
                 fooBar: function() {
                     calls.push('fooBarInclude');
                 }
-            });
+            }
+
+            Cocktail.mixin(ViewClass, aMixin, 'fooBar');
         });
 
         it("should allow mixing in mixins after the sub class has been built (useful for coffeescript)", function() {
@@ -126,7 +137,7 @@ describe('Cocktail', function() {
             Cocktail.patch(Backbone);
 
             ViewClass = Backbone.View.extend({
-                mixins: [A, B],
+                mixins: ['A', B],
 
                 events: {
                     'click .view': 'clickView'
@@ -159,7 +170,7 @@ describe('Cocktail', function() {
             }),
 
             CollectionClass = Backbone.Collection.extend({
-                mixins: [C],
+                mixins: ['C'],
                 url: '/widgets'
             }),
 

@@ -91,11 +91,11 @@ Whether or not you're monkey patching Backbone, you can also use named mixins by
     };
 
     // Without monkey patching
-    Cocktail.mixin(MyView, 'select', 'other');
+    Cocktail.mixin(MyView, 'select', 'other', MyMixins.yetAnotherMixin);
 
     // With monkey patching
     var MyView = Backbone.View.extend({
-      mixins: ['select', 'other'],
+      mixins: ['select', 'other', MyMixins.yetAnotherMixin],
 
       etc...
     });
