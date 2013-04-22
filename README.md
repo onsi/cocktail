@@ -118,11 +118,11 @@ The return value of the composite function is the **last** non-`undefined` retur
 
 To be clear: let's say **X** mixes in **A** and **B**.  Say **X** implements a method `foo` that returns `bar`, **A** implements `foo` but returns nothing (i.e. `undefined` is implicitly returned) and **B** implements `baz`.  Then instances of **X** will return `baz` -- the last non-`undefined` return value from `foo`'s **X** &rarr; **A** &rarr; **B** collision chain.
 
-## And how about that events hash?
+## And how about hashes?
 
-The events hash is special-cased by Cocktail.  Mixins can define new events hashes. The set of event hashes (original implementation + each mixin) are merged together.
+When both a mixin and the class define a hash Cocktail will merge the hashes together.  In the case of a key collision, keys and values defined in the hash on the class take precedence followed the hash on the first mixin, thn the second mixin, etc...
 
-Note that key-collisions are still possible.  If two mixins add a `click` handler to the events hash (`{'click': ... }`) then the last mixin in the mixins list's event handler will win.
+Note that this includes the events hash.  As a result mixins are allowed to add new event listeners.
 
 ## And what about subclasses?
 

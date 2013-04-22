@@ -10,6 +10,12 @@ describe('Cocktail', function() {
                 'click .A': 'clickA'
             },
 
+            zoo : {
+                aardvark: 'george',
+                elephant: 'edgar',
+                organutan: 'fred'
+            },
+
             initialize: function() {
                 this.$el.append('<div class="A"></div>');
             },
@@ -37,14 +43,20 @@ describe('Cocktail', function() {
                 return true;
             },
 
-            attributes: {
-                'data-role': 'howard' // not a function, not events: ignored
+            cosmology: {
+                omegaM: 0.3
             }
         }
 
         B = {
             events: {
                 'click .B': 'clickB'
+            },
+
+            zoo : {
+                antelope: 'bouregard',
+                elephant: 'edward',
+                zebra: 'brittania'
             },
 
             initialize: function() {
@@ -69,8 +81,8 @@ describe('Cocktail', function() {
                 return false;
             },
 
-            attributes: function() {
-                calls.push('attributesB'); // return undefined
+            cosmology: function() {
+                calls.push('cosmology');
             }
         }
 
@@ -143,6 +155,12 @@ describe('Cocktail', function() {
                     'click .view': 'clickView'
                 },
 
+                zoo : {
+                    aardvark: 'bob',
+                    penguin: 'melvin',
+                    zebra: 'zoe'
+                },
+
                 initialize: function() {
                     this.$el.append('<div class="view"></div>');
                 },
@@ -164,8 +182,8 @@ describe('Cocktail', function() {
                     calls.push('awesomeView')
                 },
 
-                attributes: {
-                    'data-role': 'spiner'
+                cosmology: {
+                    omegaL: 0.7
                 }
             }),
 
@@ -198,8 +216,8 @@ describe('Cocktail', function() {
                 expect(calls).toContain('sublime');
             });
 
-            describe('the events hash', function() {
-                it("should preserve the original view's events and mixin the events hashes for the mixins", function() {
+            describe('hashes', function() {
+                it("should merge in the events hash", function() {
                     view = new ViewClass();
 
                     $('#content').append(view.$el);
@@ -208,7 +226,19 @@ describe('Cocktail', function() {
                     $('.B').click();
                     $('.view').click();
 
-                    expect(calls).toEqual(['attributesB', 'clickA', 'clickB', 'clickView']);
+                    expect(calls).toEqual(['clickA', 'clickB', 'clickView']);
+                });
+
+                it("should merge together hashes, favoring values defined by the instance over mixins, and mixins on a first in will win basis", function() {
+                    view = new ViewClass();
+                    expect(view.zoo).toEqual({
+                        aardvark: 'bob',
+                        antelope: 'bouregard',
+                        elephant: 'edgar',
+                        organutan: 'fred',
+                        penguin: 'melvin',
+                        zebra: 'zoe'
+                    });
                 });
             });
         });
@@ -225,7 +255,7 @@ describe('Cocktail', function() {
                 expect($('.view')[0]).toBeTruthy();
                 view.beforeTearDown();
 
-                expect(calls).toEqual(['attributesB', 'renderView', 'renderA', 'awesomeView', 'awesomeA', 'fooBarA', 'fooBarB', 'beforeTearDownView', 'beforeTearDownB']);
+                expect(calls).toEqual(['renderView', 'renderA', 'awesomeView', 'awesomeA', 'fooBarA', 'fooBarB', 'beforeTearDownView', 'beforeTearDownB']);
             });
 
             it('should return the last return value in the collision chain', function() {
@@ -249,10 +279,11 @@ describe('Cocktail', function() {
             });
             it('should set a function returning the base value if no mixin function has defined return', function() {
                 var view = new ViewClass();
-                expect(view.attributes()).toEqual({
-                    'data-role': 'spiner'
+                expect(view.cosmology()).toEqual({
+                    omegaM:0.3,
+                    omegaL:0.7
                 });
-                expect(calls).toEqual(['attributesB', 'attributesB']); // called on init
+                expect(calls).toEqual(['cosmology']);
             });
         });
 
@@ -318,7 +349,7 @@ describe('Cocktail', function() {
                 $('.B').click();
                 subInstance.fooBar();
 
-                expect(calls).toEqual(['attributesB', 'clickA', 'clickB', 'BaseClassFoo', 'fooBarA', 'SubClassWithMixinFoo', 'fooBarB']);
+                expect(calls).toEqual(['clickA', 'clickB', 'BaseClassFoo', 'fooBarA', 'SubClassWithMixinFoo', 'fooBarB']);
             });
         });
     });
