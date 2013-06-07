@@ -207,6 +207,12 @@ describe('Cocktail', function() {
             Cocktail.unpatch(Backbone);
         });
 
+        it('should allow coffeescript syntax', function() {
+            ViewClass.mixin(C);
+            view = new ViewClass();
+            expect(view.url()).toEqual('/sprockets');
+        });
+
         describe('mixing in mixins', function() {
             it('should mixin all the mixin methods for all the mixins', function() {
                 view = new ViewClass();
