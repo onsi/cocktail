@@ -79,6 +79,12 @@ By default, as of 0.2.0 Cocktail no longer messes with Backbone's built-in exten
       etc...
     });
 
+or like this for CoffeeScript users:
+
+    class MyView extends Backbone.View
+      @mixin MyMixins.SelectMixin
+
+
 with the monkey-patch installed, mixins are just a convenient bit of configuration at the top of your class definitions. Note that the patch should only be applied once.
 
 ### Named mixins
