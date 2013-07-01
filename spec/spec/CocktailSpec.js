@@ -293,10 +293,20 @@ describe('Cocktail', function() {
             });
         });
 
-        describe('handling non-functional override of non-events property', function() {
-            it('should ignore the non-functional mixin property', function() {
+        describe('handling primitive override of non-events property', function() {
+            describe('when class specifies prop', function() {
+              it('should use the class property', function() {
                 var model = new ModelClass();
                 expect(model.url()).toEqual('/gizmos');
+              });
+            });
+            describe('when class does not specify prop', function() {
+              it('should use the class property', function() {
+                var ModelWithoutUrlRoot = Backbone.Model.extend({
+                  mixins: [D]
+                }), model = new ModelWithoutUrlRoot();
+                expect(model.url()).toEqual('/thingamajigs');
+              });
             });
         });
 
