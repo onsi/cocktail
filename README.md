@@ -122,19 +122,19 @@ When `render` is called on instances of **X** the implementation of `render` in 
 
 The return value of the composite function is the **last** non-`undefined` return value from the chain of colliding functions.
 
-To be clear: let's say **X** mixes in **A** and **B**.  Say **X** implements a method `foo` that returns `bar`, **A** implements `foo` but returns nothing (i.e. `undefined` is implicitly returned) and **B** implements `baz`.  Then instances of **X** will return `baz` -- the last non-`undefined` return value from `foo`'s **X** &rarr; **A** &rarr; **B** collision chain.
+To be clear: let's say **X** mixes in **A** and **B**.  Say **X** implements a method `foo` that returns `bar`, **A** implements `foo` but returns nothing (i.e. `undefined` is implicitly returned) and **B** returns `baz`.  Then instances of **X** will return `baz` -- the last non-`undefined` return value from `foo`'s **X** &rarr; **A** &rarr; **B** collision chain.
 
 ## And how about hashes?
 
-When both a mixin and the class define a hash Cocktail will merge the hashes together.  In the case of a key collision, keys and values defined in the hash on the class take precedence followed the hash on the first mixin, thn the second mixin, etc...
+When both a mixin and the class define a hash, Cocktail will merge the hashes together.  In the case of a key collision, keys and values defined in the hash on the class take precedence followed the hash on the first mixin, then the second mixin, etc...
 
-Note that this includes the events hash.  As a result mixins are allowed to add new event listeners.
+Note that this includes the events hash.  As a result, mixins are allowed to add new event listeners.
 
 ## And what about subclasses?
 
 Subclass hierarchies with mixins should work just fine.  If a super class mixes in a mixin, then all subclasses will inherit that mixin.  If those subclasses mixin additional mixins, those mixins will be folded in to the subclasses and collisions will be handled correctly, even collisions with methods further up the class hierarchy.
 
-However, if a subclass redefines a method that is provided by a mixin of the super class, the mixin's implementation will *not* be called.  This shouldn't be surprising: the subclass's method is further up in the prototype chain and is the method that gets evaluated.  In these circumstance you *must* remember to call `SubClass.__super__.theMethod.apply(this)` to ensure that the mixin's method gets called.
+However, if a subclass redefines a method that is provided by a mixin of the super class, the mixin's implementation will *not* be called.  This shouldn't be surprising: the subclass's method is further up in the prototype chain and is the method that gets evaluated.  In this circumstance, you *must* remember to call `SubClass.__super__.theMethod.apply(this)` to ensure that the mixin's method gets called.
 
 ## Testing Mixins
 
