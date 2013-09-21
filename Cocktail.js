@@ -3,12 +3,16 @@
 //     Cocktail.js may be freely distributed under the MIT license.
 //     http://github.com/onsi/cocktail
 (function() {
-    var Cocktail;
+    var Cocktail = {};
 
     if (typeof exports !== 'undefined') {
         Cocktail = exports;
+    } else if (typeof define === 'function') {
+        define(function(require) {
+            return Cocktail;
+        })
     } else {
-        Cocktail = this.Cocktail = {};
+        this.Cocktail = Cocktail;
     }
 
     Cocktail.mixins = {};
