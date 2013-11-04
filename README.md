@@ -65,6 +65,29 @@ Now all instances of `MyView` will have the selection behavior defined in the `S
     var view = new MyView(...);
     view.toggleSelect(); //works!
 
+
+**Alternatively**, you can lazily mix into your views/models like so:
+    
+    var MyView = Backbone.View.extend({
+      events: {
+        'click .myChild': 'myCustomHandler'
+      }
+
+      initialize: function() {
+        Cocktail.mixin(this, MyMixins.SelectMixin, MyMixins.SomeOtherMixin);
+      },
+
+      render: function() {
+        ...
+      },
+
+      etc...
+    });
+
+This looks a bit cleaner if you can't monkeypatch (described below). In addition, all instances of `MyView` still share the 
+same mixin function objects – as they did with the previous constructor-based mixin strategy.
+
+
 ### If you don't mind monkeypatching
 
 By default, as of 0.2.0 Cocktail no longer messes with Backbone's built-in extend method.  However, if you don't mind some monkey patching then running:

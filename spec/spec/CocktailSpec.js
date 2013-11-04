@@ -133,10 +133,30 @@ describe('Cocktail', function() {
             }
 
             Cocktail.mixin(ViewClass, aMixin, 'fooBar');
+
+            ViewClass2 = Backbone.View.extend({
+                initialize: function () {
+                  Cocktail.mixin(this, aMixin, 'fooBar');
+                },
+
+                //should be ignored as the patch is not installed
+                fooBar: function() {
+                    calls.push('fooBarOriginal');
+                }
+            });
+
         });
 
         it("should allow mixing in mixins after the sub class has been built (useful for coffeescript)", function() {
             var view = new ViewClass;
+            expect(view.mixinmethod()).toEqual('mixin');
+            expect(view.otherMixinMethod()).toEqual('other');
+            view.fooBar();
+            expect(calls).toEqual(['fooBarOriginal', 'fooBarInclude']);
+        });
+
+        it("should allow mixing into the instance after the subclass has been instantiated", function() {
+            var view = new ViewClass2();
             expect(view.mixinmethod()).toEqual('mixin');
             expect(view.otherMixinMethod()).toEqual('other');
             view.fooBar();

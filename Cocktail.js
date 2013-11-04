@@ -10,7 +10,7 @@
     } else if (typeof define === 'function') {
         define(function(require) {
             return Cocktail;
-        })
+        });
     } else {
         this.Cocktail = Cocktail;
     }
@@ -19,6 +19,8 @@
 
     Cocktail.mixin = function mixin(klass) {
         var mixins = _.chain(arguments).toArray().rest().flatten().value();
+        // Allows mixing into the constructor's prototype or the dynamic instance
+        var obj = klass.prototype || klass;
 
         var collisions = {};
 
@@ -28,32 +30,32 @@
             }
             _(mixin).each(function(value, key) {
                 if (_.isFunction(value)) {
-                    if (klass.prototype[key]) {
-                        collisions[key] = collisions[key] || [klass.prototype[key]];
+                    if (obj[key]) {
+                        collisions[key] = collisions[key] || [obj[key]];
                         collisions[key].push(value);
                     }
-                    klass.prototype[key] = value;
+                    obj[key] = value;
                 } else if (_.isObject(value)) {
-                    klass.prototype[key] = _.extend({}, value, klass.prototype[key] || {});
-                } else if (!(key in klass.prototype)) {
-                    klass.prototype[key] = value;
+                    obj[key] = _.extend({}, value, obj[key] || {});
+                } else if (!(key in obj)) {
+                    obj[key] = value;
                 }
             });
         });
 
         _(collisions).each(function(propertyValues, propertyName) {
-            klass.prototype[propertyName] = function() {
+            obj[propertyName] = function() {
                 var that = this,
                     args = arguments,
-                    returnValue = undefined;
+                    returnValue;
 
                 _(propertyValues).each(function(value) {
                     var returnedValue = _.isFunction(value) ? value.apply(that, args) : value;
-                    returnValue = (returnedValue === undefined ? returnValue : returnedValue);
+                    returnValue = (typeof returnedValue === 'undefined' ? returnValue : returnedValue);
                 });
 
                 return returnValue;
-            }
+            };
         });
     };
 
@@ -76,7 +78,7 @@
         _([Backbone.Model, Backbone.Collection, Backbone.Router, Backbone.View]).each(function(klass) {
             klass.mixin = function mixin() {
                 Cocktail.mixin(this, _.toArray(arguments));
-            }
+            };
 
             klass.extend = extend;
         });
