@@ -84,9 +84,9 @@ Now all instances of `MyView` will have the selection behavior defined in the `S
       etc...
     });
 
-This looks a bit cleaner if you can't monkeypatch (described below). In addition, all instances of `MyView` still share the 
-same mixin function objects – as they did with the previous constructor-based mixin strategy.
-
+This looks a bit cleaner if you can't monkeypatch (described below). In addition, this syntax gives you the flexibility 
+to mix in certain methods in particular states of your application. For example, maybe you have an interface that you'd like
+an object to assume on login/logout or in the presence of another object (like a Flash embed).
 
 ### If you don't mind monkeypatching
 
