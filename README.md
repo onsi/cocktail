@@ -133,7 +133,10 @@ Whether or not you're monkey patching Backbone, you can also use named mixins by
 
 In the example above, both `MyView` and `SelectMixin` both defined `initialize`, and `render`.  What happens with these colliding methods?
 
-Cocktail automatically ensures that methods defined in your mixins do not obliterate the corresponding methods in your classes.  This is accomplished by wrapping all colliding methods into a new method that is then assigned to the final composite object.
+Cocktail automatically ensures that methods defined in your mixins do not obliterate the corresponding methods in your classes.  
+This is accomplished by wrapping all colliding methods into a new method that is then assigned to the final composite object.
+
+Note: Cocktail will ensure that if you accidentally try to mix in the same method, it will not result in a collision and will do nothing.
 
 ### How are colliding functions called?
 

@@ -162,6 +162,34 @@ describe('Cocktail', function() {
             view.fooBar();
             expect(calls).toEqual(['fooBarOriginal', 'fooBarInclude']);
         });
+
+        it("should not mixin the same function reference more than once", function () {
+            var A = {
+                foo: function () {
+                    console.log('foo');
+                }
+            };
+
+            var B = {};
+
+            var C = {
+                foo: function () {
+                    console.log('foo');
+                }
+            };
+
+            Cocktail.mixin(B, A);
+            expect(B.foo === A.foo).toBeTruthy();
+
+            // An accidental mixin of the same base
+            Cocktail.mixin(B, A);
+            expect(B.foo === A.foo).toBeTruthy();
+
+            // Expect the collision wrapper
+            Cocktail.mixin(B, C);
+            expect(B.foo === A.foo).toBeFalsy();
+            expect(B.foo === C.foo).toBeFalsy();
+        });
     });
 
     describe("when patching backbone", function() {
