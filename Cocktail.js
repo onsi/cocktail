@@ -30,6 +30,10 @@
             }
             _(mixin).each(function(value, key) {
                 if (_.isFunction(value)) {
+                    // If the mixer already has that exact function reference
+                    // Note: this would occur on an accidental mixin of the same base
+                    if (obj[key] === value) return;
+
                     if (obj[key]) {
                         collisions[key] = collisions[key] || [obj[key]];
                         collisions[key].push(value);
