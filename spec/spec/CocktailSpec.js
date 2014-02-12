@@ -16,8 +16,6 @@ describe('Cocktail', function() {
                 organutan: 'fred'
             },
 
-            sampleArray: [1, 2, 3],
-
             initialize: function() {
                 this.$el.append('<div class="A"></div>');
             },
@@ -122,9 +120,12 @@ describe('Cocktail', function() {
                 mixinmethod: function() {
                     return 'mixin';
                 },
+
                 otherMixinMethod: function() {
                     return 'other';
-                }
+                },
+
+                sampleArray: [1, 2, 3]
             };
 
             // Works with named mixins too
@@ -191,6 +192,13 @@ describe('Cocktail', function() {
             Cocktail.mixin(B, C);
             expect(B.foo === A.foo).toBeFalsy();
             expect(B.foo === C.foo).toBeFalsy();
+        });
+
+        it('should not convert an array attribute of a mixin into an object', function () {
+            var view = new ViewClass();
+            console.log(view)
+            console.log('array', view.sampleArray)
+            expect(_.isArray(view.sampleArray)).toBeTruthy();
         });
     });
 
