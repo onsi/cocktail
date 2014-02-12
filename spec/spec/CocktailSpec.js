@@ -196,8 +196,6 @@ describe('Cocktail', function() {
 
         it('should not convert an array attribute of a mixin into an object', function () {
             var view = new ViewClass();
-            console.log(view)
-            console.log('array', view.sampleArray)
             expect(_.isArray(view.sampleArray)).toBeTruthy();
         });
     });
