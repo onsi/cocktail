@@ -39,6 +39,8 @@
                         collisions[key].push(value);
                     }
                     obj[key] = value;
+                } else if (_.isArray(value)) {
+                    obj[key] = _.union(value, obj[key] || []);
                 } else if (_.isObject(value)) {
                     obj[key] = _.extend({}, value, obj[key] || {});
                 } else if (!(key in obj)) {
