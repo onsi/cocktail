@@ -1,6 +1,6 @@
+/* global describe, beforeEach, afterEach, expect, Cocktail */
 describe('Cocktail', function() {
-    var A, B, ViewClass;
-    var calls;
+    var A, B, C, D, ViewClass, ViewClass2, calls;
 
     beforeEach(function() {
         calls = [];
@@ -10,11 +10,13 @@ describe('Cocktail', function() {
                 'click .A': 'clickA'
             },
 
-            zoo : {
+            zoo: {
                 aardvark: 'george',
                 elephant: 'edgar',
                 organutan: 'fred'
             },
+
+            sampleArray: [1, 2, 3],
 
             initialize: function() {
                 this.$el.append('<div class="A"></div>');
@@ -22,7 +24,7 @@ describe('Cocktail', function() {
 
             theFunc: function() {
                 calls.push('theFunc');
-                return 'func!'
+                return 'func!';
             },
 
             clickA: function() {
@@ -34,8 +36,8 @@ describe('Cocktail', function() {
             },
 
             awesomeSauce: function() {
-                calls.push('awesomeA')
-                return 'the sauce'
+                calls.push('awesomeA');
+                return 'the sauce';
             },
 
             fooBar: function() {
@@ -46,7 +48,7 @@ describe('Cocktail', function() {
             cosmology: {
                 omegaM: 0.3
             }
-        }
+        };
 
         B = {
             events: {
@@ -65,7 +67,7 @@ describe('Cocktail', function() {
 
             sublime: function() {
                 calls.push('sublime');
-                return 'sublemon'
+                return 'sublemon';
             },
 
             clickB: function() {
@@ -84,20 +86,20 @@ describe('Cocktail', function() {
             cosmology: function() {
                 calls.push('cosmology');
             }
-        }
+        };
 
         C = {
             url: function() {
                 return '/sprockets';
             }
-        }
+        };
 
         D = {
             urlRoot: '/thingamajigs',
             defaults: function() {
                 return null;
             }
-        }
+        };
 
         Cocktail.mixins.A = A;
         Cocktail.mixins.B = B;
@@ -105,7 +107,7 @@ describe('Cocktail', function() {
         Cocktail.mixins.D = D;
     });
 
-    describe("Cocktail.mixin", function() {
+    describe('Cocktail.mixin', function() {
         beforeEach(function() {
             ViewClass = Backbone.View.extend({
                 mixins: [A, 'B'],
@@ -113,7 +115,7 @@ describe('Cocktail', function() {
                 fooBar: function() {
                     calls.push('fooBarOriginal');
                 }
-            })
+            });
 
 
             var aMixin = {
@@ -123,14 +125,14 @@ describe('Cocktail', function() {
                 otherMixinMethod: function() {
                     return 'other';
                 }
-            }
+            };
 
             // Works with named mixins too
             Cocktail.mixins.fooBar = {
                 fooBar: function() {
                     calls.push('fooBarInclude');
                 }
-            }
+            };
 
             Cocktail.mixin(ViewClass, aMixin, 'fooBar');
 
@@ -147,15 +149,15 @@ describe('Cocktail', function() {
 
         });
 
-        it("should allow mixing in mixins after the sub class has been built (useful for coffeescript)", function() {
-            var view = new ViewClass;
+        it('should allow mixing in mixins after the sub class has been built (useful for coffeescript)', function() {
+            var view = new ViewClass();
             expect(view.mixinmethod()).toEqual('mixin');
             expect(view.otherMixinMethod()).toEqual('other');
             view.fooBar();
             expect(calls).toEqual(['fooBarOriginal', 'fooBarInclude']);
         });
 
-        it("should allow mixing into the instance after the subclass has been instantiated", function() {
+        it('should allow mixing into the instance after the subclass has been instantiated', function() {
             var view = new ViewClass2();
             expect(view.mixinmethod()).toEqual('mixin');
             expect(view.otherMixinMethod()).toEqual('other');
@@ -163,7 +165,7 @@ describe('Cocktail', function() {
             expect(calls).toEqual(['fooBarOriginal', 'fooBarInclude']);
         });
 
-        it("should not mixin the same function reference more than once", function () {
+        it('should not mixin the same function reference more than once', function () {
             var A = {
                 foo: function () {
                     console.log('foo');
@@ -192,7 +194,9 @@ describe('Cocktail', function() {
         });
     });
 
-    describe("when patching backbone", function() {
+    describe('when patching backbone', function() {
+        var ViewClass, CollectionClass, ModelClass;
+
         beforeEach(function() {
             Cocktail.patch(Backbone);
 
@@ -227,7 +231,7 @@ describe('Cocktail', function() {
                 },
 
                 awesomeSauce: function() {
-                    calls.push('awesomeView')
+                    calls.push('awesomeView');
                 },
 
                 cosmology: {
@@ -257,13 +261,13 @@ describe('Cocktail', function() {
 
         it('should allow coffeescript syntax', function() {
             ViewClass.mixin(C);
-            view = new ViewClass();
+            var view = new ViewClass();
             expect(view.url()).toEqual('/sprockets');
         });
 
         describe('mixing in mixins', function() {
             it('should mixin all the mixin methods for all the mixins', function() {
-                view = new ViewClass();
+                var view = new ViewClass();
                 view.theFunc();
                 expect(calls).toContain('theFunc');
                 view.sublime();
@@ -271,8 +275,8 @@ describe('Cocktail', function() {
             });
 
             describe('hashes', function() {
-                it("should merge in the events hash", function() {
-                    view = new ViewClass();
+                it('should merge in the events hash', function() {
+                    var view = new ViewClass();
 
                     $('#content').append(view.$el);
 
@@ -283,8 +287,8 @@ describe('Cocktail', function() {
                     expect(calls).toEqual(['clickA', 'clickB', 'clickView']);
                 });
 
-                it("should merge together hashes, favoring values defined by the instance over mixins, and mixins on a first in will win basis", function() {
-                    view = new ViewClass();
+                it('should merge together hashes, favoring values defined by the instance over mixins, and mixins on a first in will win basis', function() {
+                    var view = new ViewClass();
                     expect(view.zoo).toEqual({
                         aardvark: 'bob',
                         antelope: 'bouregard',
@@ -299,7 +303,7 @@ describe('Cocktail', function() {
 
         describe('handling method collisions', function() {
             it('should call all the methods involved in the collision in the correct order', function() {
-                view = new ViewClass();
+                var view = new ViewClass();
                 view.render();
                 view.awesomeSauce();
                 view.fooBar();
@@ -313,7 +317,7 @@ describe('Cocktail', function() {
             });
 
             it('should return the last return value in the collision chain', function() {
-                view = new ViewClass();
+                var view = new ViewClass();
                 expect(view.render()).toEqual(view);
                 expect(view.theFunc()).toEqual('func!');
                 expect(view.sublime()).toEqual('sublemon');
@@ -371,7 +375,7 @@ describe('Cocktail', function() {
                 SubClass = BaseClass.extend({
                     fooBar: function() {
                         SubClass.__super__.fooBar.apply(this);
-                        calls.push('SubClassFoo')
+                        calls.push('SubClassFoo');
                     }
                 });
 
@@ -380,23 +384,23 @@ describe('Cocktail', function() {
 
                     fooBar: function() {
                         SubClassWithMixin.__super__.fooBar.apply(this);
-                        calls.push('SubClassWithMixinFoo')
+                        calls.push('SubClassWithMixinFoo');
                     }
                 });
             });
 
-            it("should behave correctly for the base class", function() {
-                baseInstance = new BaseClass();
+            it('should behave correctly for the base class', function() {
+                var baseInstance = new BaseClass();
 
                 $('#content').append(baseInstance.$el);
                 $('.A').click();
                 baseInstance.fooBar();
 
-                expect(calls).toEqual(['clickA', 'BaseClassFoo', 'fooBarA'])
+                expect(calls).toEqual(['clickA', 'BaseClassFoo', 'fooBarA']);
             });
 
-            it("should behave correctly for the sub class that has no mixins", function() {
-                subInstance = new SubClass();
+            it('should behave correctly for the sub class that has no mixins', function() {
+                var subInstance = new SubClass();
 
                 $('#content').html(subInstance.$el);
                 $('.A').click();
@@ -405,8 +409,8 @@ describe('Cocktail', function() {
                 expect(calls).toEqual(['clickA', 'BaseClassFoo', 'fooBarA', 'SubClassFoo']);
             });
 
-            it("should behave correctly for the sub class that has mixins", function() {
-                subInstance = new SubClassWithMixin();
+            it('should behave correctly for the sub class that has mixins', function() {
+                var subInstance = new SubClassWithMixin();
 
                 $('#content').html(subInstance.$el);
                 $('.A').click();
