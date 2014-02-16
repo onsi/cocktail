@@ -135,7 +135,7 @@ describe('Cocktail', function() {
                 }
             };
 
-            var result = Cocktail.mixin(ViewClass, aMixin, 'fooBar');
+            Cocktail.mixin(ViewClass, aMixin, 'fooBar');
 
             ViewClass2 = Backbone.View.extend({
                 initialize: function () {
