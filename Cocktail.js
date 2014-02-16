@@ -63,6 +63,8 @@
                 return returnValue;
             };
         });
+
+        return klass;
     };
 
     var originalExtend;

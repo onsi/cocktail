@@ -135,7 +135,7 @@ describe('Cocktail', function() {
                 }
             };
 
-            Cocktail.mixin(ViewClass, aMixin, 'fooBar');
+            var result = Cocktail.mixin(ViewClass, aMixin, 'fooBar');
 
             ViewClass2 = Backbone.View.extend({
                 initialize: function () {
@@ -197,6 +197,14 @@ describe('Cocktail', function() {
         it('should not convert an array attribute of a mixin into an object', function () {
             var view = new ViewClass();
             expect(_.isArray(view.sampleArray)).toBeTruthy();
+        });
+
+        it('should return the result mixed object', function () {
+            var A = { b: 'c' },
+                D = { e: 'f' };
+
+            var result = Cocktail.mixin(A, D);
+            expect(Cocktail.mixin(A, D) == A).toBeTruthy();
         });
     });
 
