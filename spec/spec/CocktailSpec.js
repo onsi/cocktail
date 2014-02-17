@@ -198,6 +198,14 @@ describe('Cocktail', function() {
             var view = new ViewClass();
             expect(_.isArray(view.sampleArray)).toBeTruthy();
         });
+
+        it('should return the result mixed object', function () {
+            var A = { b: 'c' },
+                D = { e: 'f' };
+
+            var result = Cocktail.mixin(A, D);
+            expect(Cocktail.mixin(A, D) == A).toBeTruthy();
+        });
     });
 
     describe('when patching backbone', function() {
