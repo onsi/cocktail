@@ -1,0 +1,22 @@
+{
+  "name": "Cocktail",
+  "version": "0.5.4",
+  "description": "DRY up your Backbone code with mixins",
+  "homepage": "https://github.com/onsi/cocktail",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/onsi/cocktail.git"
+  },
+  "keywords": [
+    "backbone",
+    "mixin"
+  ],
+  "author": "Onsi Fakhouri <onsijoe@gmail.com>",
+  "license": "MIT",
+  "readmeFilename": "README.md",
+  "dependencies": {
+    "grunt": "~0.4.2",
+    "grunt-contrib-uglify": "~0.2.7",
+    "grunt-cli": "~0.1.11"
+  }
+}

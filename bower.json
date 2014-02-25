@@ -1,11 +1,11 @@
 {
   "name": "cocktail",
-  "version": "0.5.3",
+  "version": "0.5.4",
   "homepage": "https://github.com/onsi/cocktail",
   "authors": [
     "Onsi Fakhouri <onsijoe@gmail.com>"
   ],
-  "description": "Mixins for your Backbone Views",
+  "description": "DRY up your Backbone code with mixins",
   "main": "Cocktail.js",
   "keywords": [
     "backbone",
