@@ -9,7 +9,7 @@ Mixins are simply bare-bones JavaScript objects that provide additional function
 Here's an example mixin that implements selectability on a view based on a model's selection state:
 
     window.MyMixins = {};
-    
+
     MyMixins.SelectMixin = {
       initialize: function() {
         this.model.on('change:selected', this.refreshSelect, this);
@@ -67,7 +67,7 @@ Now all instances of `MyView` will have the selection behavior defined in the `S
 
 
 **Alternatively**, you can lazily mix into your views/models like so:
-    
+
     var MyView = Backbone.View.extend({
       events: {
         'click .myChild': 'myCustomHandler'
@@ -84,7 +84,7 @@ Now all instances of `MyView` will have the selection behavior defined in the `S
       etc...
     });
 
-This looks a bit cleaner if you can't monkeypatch (described below). In addition, this syntax gives you the flexibility 
+This looks a bit cleaner if you can't monkeypatch (described below). In addition, this syntax gives you the flexibility
 to mix in certain methods in particular states of your application. For example, maybe you have an interface that you'd like
 an object to assume on login/logout or in the presence of another object (like a Flash embed).
 
@@ -133,7 +133,7 @@ Whether or not you're monkey patching Backbone, you can also use named mixins by
 
 In the example above, both `MyView` and `SelectMixin` both defined `initialize`, and `render`.  What happens with these colliding methods?
 
-Cocktail automatically ensures that methods defined in your mixins do not obliterate the corresponding methods in your classes.  
+Cocktail automatically ensures that methods defined in your mixins do not obliterate the corresponding methods in your classes.
 This is accomplished by wrapping all colliding methods into a new method that is then assigned to the final composite object.
 
 Note: Cocktail will ensure that if you accidentally try to mix in the same method, it will not result in a collision and will do nothing.
@@ -166,14 +166,27 @@ However, if a subclass redefines a method that is provided by a mixin of the sup
 
 The [example](https://github.com/onsi/cocktail/tree/master/example) directory includes an example mixin and its usage, and the accompanying [Jasmine](http://www.github.com/pivotal/jasmine) test.  It also includes a [readme](https://github.com/onsi/cocktail/tree/master/example) that walks through the testing pattern employed for testing mixins with Jasmine.
 
-## Dependencies and "Installation"
+## Dependencies, Installation, and Contributing
 
 Cocktail requires:
 
-  - [Backbone](http://backbonejs.org) (duh) (tested with 0.9.2)
-  - [Underscore](http://underscorejs.org) (tested with 1.3.3)
+  - [Backbone](http://backbonejs.org) (duh) (tested with 1.1.0)
+  - [Underscore](http://underscorejs.org) (tested with 1.5.1)
 
-Future changes to backbone could break Cocktail or obviate its need.  If the latter happens - great!  If the former: let me know and I'll try to ensure compatibility going forward.
+`bower install cocktail`
+
+Running Tests:
+
+Open up `spec/SpecRunner.html` in your favorite browser.
+
+Contributing:
+
+You can contribute a new build by issuing the terminal command `grunt` within the root folder.
+
+
+Future changes to backbone could break Cocktail or obviate its need.
+If the latter happens - great!  If the former: let me know and I'll try to
+ensure compatibility going forward.
 
 ## If you like Cocktail...
 ...check out [Coccyx](http://github.com/onsi/coccyx).  Coccyx helps you plug up backbone leaks with two things: named constructors and tear-downable view hierarchies.
