@@ -2,6 +2,9 @@
 
 Break out your shared [Backbone.js](http://backbonejs.org) model/collection/view behaviors into separate modules and mix them into your classes with Cocktail - an implementation of Backbone mixins.
 
+* `bower install cocktail`
+* `npm install backbone.cocktail`
+
 ## Concocting Mixins
 
 Mixins are simply bare-bones JavaScript objects that provide additional functionality to your Backbone objects.  Think of them as bags of methods that will get added to all instances of your objects.
@@ -172,8 +175,6 @@ Cocktail requires:
 
   - [Backbone](http://backbonejs.org) (duh) (tested with 1.1.0)
   - [Underscore](http://underscorejs.org) (tested with 1.5.1)
-
-`bower install cocktail`
 
 Running Tests:
 
