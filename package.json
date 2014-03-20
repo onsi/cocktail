@@ -1,6 +1,6 @@
 {
   "name": "backbone.cocktail",
-  "version": "0.5.4",
+  "version": "0.5.5",
   "description": "DRY up your Backbone code with mixins",
   "homepage": "https://github.com/onsi/cocktail",
   "repository": {
