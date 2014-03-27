@@ -2,18 +2,17 @@
 //     (c) 2012 Onsi Fakhouri
 //     Cocktail.js may be freely distributed under the MIT license.
 //     http://github.com/onsi/cocktail
-(function() {
-    var Cocktail = {};
-
-    if (typeof exports !== 'undefined') {
-        Cocktail = exports;
+(function(factory) {
+    if (typeof require === 'function' && typeof module !== 'undefined' && module.exports) {
+        module.exports = factory(require('underscore'));
     } else if (typeof define === 'function') {
-        define(function(require) {
-            return Cocktail;
-        });
+        define(['underscore'], factory);
     } else {
-        this.Cocktail = Cocktail;
+        this.Cocktail = factory(_);
     }
+}(function (_) {
+
+    var Cocktail = {};
 
     Cocktail.mixins = {};
 
@@ -98,4 +97,6 @@
             klass.extend = originalExtend;
         });
     };
-})();
+
+    return Cocktail;
+}));
