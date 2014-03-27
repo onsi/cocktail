@@ -13,6 +13,7 @@
   ],
   "author": "Onsi Fakhouri <onsijoe@gmail.com>",
   "license": "MIT",
+  "main": "Cocktail.js",
   "readmeFilename": "README.md",
   "devDependencies": {
     "grunt": "~0.4.2",
