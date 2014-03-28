@@ -10,7 +10,7 @@ module.exports = function(grunt) {
           banner: '<%= banner %>'
         },
         files: {
-          '<%= pkg.name %>-<%= pkg.version %>.min.js': '<%= pkg.name %>.js'
+          'Cocktail-<%= pkg.version %>.min.js': '<%= pkg.main %>'
         }
       }
     }
