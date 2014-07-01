@@ -203,8 +203,23 @@ describe('Cocktail', function() {
             var A = { b: 'c' },
                 D = { e: 'f' };
 
-            var result = Cocktail.mixin(A, D);
-            expect(Cocktail.mixin(A, D) == A).toBeTruthy();
+            expect(Cocktail.mixin(A, D) === A).toBeTruthy();
+        });
+
+        it('should not fail on conflicting constructors (#39)', function () {
+            var A = Backbone.Model.extend({
+                constructor: function() {}
+            }),
+
+            b = {
+                constructor: function() {}
+            },
+            z;
+
+            Cocktail.mixin(A, b);
+
+            z = new A();
+            expect(true).toBeTruthy();
         });
     });
 

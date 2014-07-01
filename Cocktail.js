@@ -34,7 +34,8 @@
                     if (obj[key] === value) return;
 
                     if (obj[key]) {
-                        collisions[key] = collisions[key] || [obj[key]];
+                        // Avoid accessing built-in properties like constructor (#39)
+                        collisions[key] = collisions.hasOwnProperty(key) ? collisions[key] : [obj[key]];
                         collisions[key].push(value);
                     }
                     obj[key] = value;
