@@ -1,4 +1,5 @@
-# Cocktail
+# Cocktail [![npm](http://img.shields.io/npm/v/backbone.cocktail.svg)](https://npmjs.org/package/backbone.cocktail) [![npm](http://img.shields.io/npm/dm/backbone.cocktail.svg)](https://npmjs.org/package/backbone.cocktail)
+
 
 Break out your shared [Backbone.js](http://backbonejs.org) model/collection/view behaviors into separate modules and mix them into your classes with Cocktail - an implementation of Backbone mixins.
 
