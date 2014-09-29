@@ -49,7 +49,7 @@
         });
 
         _(collisions).each(function(propertyValues, propertyName) {
-            obj[propertyName] = function() {
+            obj[propertyName] = _.bind(function() {
                 var that = this,
                     args = arguments,
                     returnValue;
@@ -60,7 +60,7 @@
                 });
 
                 return returnValue;
-            };
+            }, obj);
         });
 
         return klass;
