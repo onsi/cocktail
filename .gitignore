@@ -1,2 +1,5 @@
 .DS_Store
 bower_components
+_SpecRunner.html
+node_modules
+.grunt
