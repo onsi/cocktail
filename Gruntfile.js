@@ -27,6 +27,19 @@ module.exports = function(grunt) {
             'externals/backbone.js'
           ]
         }
+      },
+      components_lodash: {
+        src: ['Cocktail.js'],
+        options: {
+          specs: 'spec/spec/*Spec.js',
+          keepRunner : true,
+          helpers: 'spec/SpecHelper.js',
+          vendor: [
+            'externals/jquery-1.7.2.js',
+            'externals/lodash.js',
+            'externals/backbone.js'
+          ]
+        }  
       }
     }
   });
