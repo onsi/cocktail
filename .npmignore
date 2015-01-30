@@ -1,0 +1,7 @@
+externals/
+example/
+spec/
+.gitignore
+.tm_properties
+.npmignore
+Gruntfile.js

@@ -13,9 +13,13 @@
   ],
   "license": "MIT",
   "ignore": [
-    "**/.*",
-    "bower_components",
-    "spec"
+    "spec/",
+    "externals/",
+    "example/",
+    "Gruntfile.js",
+    ".npmignore",
+    ".gitignore",
+    ".tm_properties"
   ],
   "dependencies": {
     "backbone": "~1.1.0",
