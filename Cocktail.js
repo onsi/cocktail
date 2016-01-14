@@ -16,7 +16,7 @@
     Cocktail.mixins = {};
 
     Cocktail.mixin = function mixin(klass) {
-        var mixins = _.chain(arguments).toArray().rest().flatten().value();
+        var mixins = _.chain(arguments).toArray().slice(1).flatten().value();
         // Allows mixing into the constructor's prototype or the dynamic instance
         var obj = klass.prototype || klass;
 
