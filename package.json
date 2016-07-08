@@ -1,6 +1,6 @@
 {
   "name": "backbone.cocktail",
-  "version": "0.5.11",
+  "version": "0.5.12",
   "description": "DRY up your Backbone code with mixins",
   "homepage": "https://github.com/onsi/cocktail",
   "repository": {
@@ -29,6 +29,6 @@
     "grunt-contrib-jasmine": "^0.6.5"
   },
   "dependencies": {
-    "underscore": "~1.5.1"
+    "underscore": "^1.8.3"
   }
 }
