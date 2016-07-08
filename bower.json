@@ -1,6 +1,6 @@
 {
   "name": "cocktail",
-  "version": "0.5.9",
+  "version": "0.5.12",
   "homepage": "https://github.com/onsi/cocktail",
   "authors": [
     "Onsi Fakhouri <onsijoe@gmail.com>"
@@ -23,6 +23,6 @@
   ],
   "dependencies": {
     "backbone": "^1.3.3",
-    "underscore": ">=1.5.1"
+    "underscore": ">=1.8.3"
   }
 }
