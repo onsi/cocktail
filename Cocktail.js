@@ -68,7 +68,8 @@
 
     var originalExtend;
 
-    Cocktail.patch = function patch(Backbone) {
+    Cocktail.patch = function patch(Backbone, patchAdditional) {
+        var patchList = [Backbone.Model, Backbone.Collection, Backbone.Router, Backbone.View].concat(patchAdditional || []);
         originalExtend = Backbone.Model.extend;
 
         var extend = function(protoProps, classProps) {
@@ -82,7 +83,7 @@
             return klass;
         };
 
-        _.each([Backbone.Model, Backbone.Collection, Backbone.Router, Backbone.View], function(klass) {
+        _.each(patchList, function(klass) {
             klass.mixin = function mixin() {
                 Cocktail.mixin(this, _.toArray(arguments));
             };
